@@ -5,7 +5,7 @@ SCREEN_SIZE = 500
 DIFF = SCREEN_SIZE / 9
 DIFFICULTY = 0.4
 
-# .\Scripts\activate
+# .venv\Scripts\activate
 # deactivate
 
 pygame.font.init()

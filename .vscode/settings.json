@@ -1,10 +1,13 @@
 {
     "cSpell.words": [
+        "arange",
+        "atleast",
         "blit",
         "comicsans",
         "KEYDOWN",
         "MOUSEBUTTONDOWN",
         "pygame",
+        "randn",
         "Sodoku"
     ]
 }
