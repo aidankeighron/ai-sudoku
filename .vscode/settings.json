@@ -6,6 +6,7 @@
         "comicsans",
         "KEYDOWN",
         "MOUSEBUTTONDOWN",
+        "ndarray",
         "pygame",
         "randn",
         "Sodoku"

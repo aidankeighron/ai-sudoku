@@ -1,5 +1,6 @@
 from board import Board
 import pygame, sys
+from ai import possible_answers
 
 SCREEN_SIZE = 500
 DIFF = SCREEN_SIZE / 9
@@ -52,6 +53,7 @@ while True:
                 # Check if selected value can be added
                 if board.is_valid_move(int(row), int(col), value):
                     board.set_board(int(row), int(col), value)
+                    print(board.possible_answers())
 
             if event.key == pygame.K_c:
                 board.reset(False)

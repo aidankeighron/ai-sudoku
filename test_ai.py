@@ -1,5 +1,5 @@
 import numpy as np, pytest
-from ai import Perceptron, test_perceptron
+from nn import Perceptron, NeuralNetwork
 
 class TestPerceptron:
     def test_or_dataset(self):
@@ -38,3 +38,18 @@ class TestPerceptron:
             for (value, target) in zip(x, y):
                 pred = p.predict(value)
                 assert target[0] == pred
+
+class TestNeuralNetwork:
+
+    def test_xor_dataset(self):
+        nn = NeuralNetwork([2, 2, 1], alpha=0.5)
+        
+        x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+        y = np.array([[0], [1], [1], [0]])
+
+        nn.fit(x, y, epochs=20000)
+
+        for (value, target) in zip(x, y):
+            pred = nn.predict(value)[0][0]
+            step = 1 if pred > 0.5 else 0
+            assert target == step
