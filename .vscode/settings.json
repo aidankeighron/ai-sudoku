@@ -4,6 +4,7 @@
         "atleast",
         "blit",
         "comicsans",
+        "dtype",
         "KEYDOWN",
         "MOUSEBUTTONDOWN",
         "ndarray",

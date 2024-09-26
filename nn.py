@@ -1,6 +1,8 @@
-from board import Board
-import numpy as np
+from sklearn.metrics import mean_squared_error
 from numpy import ndarray
+from typing import List
+from board import Board
+import numpy as np, json
 
 class Perceptron:
     # Alpha usually 0.1 0.01 0.001
@@ -141,18 +143,35 @@ def test_nn():
         print(f"[INFO] data={value}, ground-truth={target[0]}, pred={round(pred, 4)}, step={step}")
 
 def run_nn():
-    nn = NeuralNetwork([81, 81, 18, 3], alpha=0.5)
-    board = Board(difficulty=0.8, seed=1)
+    nn = NeuralNetwork([81, 81, 81, 81, 81], alpha=0.5)
 
-    y = np.array(np.array(board.possible_answers())/9, dtype=np.float64)
-    x = np.array([np.array(board.get_board_1d())/9 for _ in range(len(y))], dtype=np.float64)
+    start_seed = 0
+    end_seed = 1000
+    training_data: List[Board] = [Board(difficulty=0.2, seed=i) for i in range(start_seed, end_seed)]
+    print("Boards Generated")
+    y = np.array(np.array([data.solve().get_board_1d() for data in training_data])/10, dtype=np.float64)
+    print("Answer Generated")
+    x = np.array(np.array([data.get_board_1d() for data in training_data])/10, dtype=np.float64)
+    print("Data Generated")
 
+    with open("data.json", "w") as f:
+        json.dump({"data": x.tolist(), "answer": y.tolist(), "start_seed": start_seed, "end_seed": end_seed}, f)
+
+    # TODO generator for y
+    print("Training")
     nn.fit(x, y, epochs=5000)
+    print("Training Done")
+
+    testing_data: List[Board] = [Board(difficulty=0.2, seed=i) for i in range(end_seed, end_seed+5)]
+    
+    y = np.array(np.array([data.solve().get_board_1d() for data in testing_data])/10, dtype=np.float64)
+    x = np.array(np.array([data.get_board_1d() for data in testing_data])/10, dtype=np.float64)
 
     for (value, target) in zip(x, y):
         pred = nn.predict(value)[0]
-        
-        print(f"[INFO], answer={target*9}, out={np.round(pred*9, 2)}")
+        ai_mse = mean_squared_error(target, pred)
+        nothing_mse = mean_squared_error(target, value)
+        print(f"[INFO], AI mse={np.round(ai_mse, 2)}, Nothing mse={np.round(nothing_mse, 2)}")
 
 # test_nn()
 run_nn()

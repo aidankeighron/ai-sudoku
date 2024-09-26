@@ -1,3 +1,4 @@
+from typing import Any, List, Self
 from sudoku import Sudoku
 import numpy as np
 
@@ -18,22 +19,22 @@ def create(board: list) -> Sudoku:
     return puzzle
 class Board():
 
-    def __init__(self, difficulty=0.4, seed=-1):
-        self.reset(True, difficulty, seed)
+    def __init__(self, difficulty=0.4, seed=-1, board=None):
+        self.reset(True, difficulty, seed, board)
     
-    def get_board(self):
+    def get_board(self) -> np.ndarray[int]:
         return self._board
     
-    def get_sodoku(self):
+    def get_sodoku(self) -> Sudoku:
         return self._sodoku
     
-    def get_board_1d(self):
+    def get_board_1d(self) -> np.ndarray[int]:
         return self._board.flatten()
     
-    def set_board(self, row, col, value):
+    def set_board(self, row, col, value) -> None:
         self._board[row, col] = value
 
-    def is_valid_move(self, row, col, value):
+    def is_valid_move(self, row, col, value) -> bool:
         for i in range(9):
             #  Check if value exists in rows or cols
             if self._board[row, i] == value or self._board[i, col] == value:
@@ -46,22 +47,25 @@ class Board():
                     return False
         return True
 
-    def reset(self, regenerate, difficulty=0.4, seed=-1):
+    def reset(self, regenerate, difficulty=0.4, seed=-1, board=None) -> None:
         if regenerate:
-            self._sodoku = generate(width=3, height=3, difficulty=difficulty, seed=seed)
+            if board:
+                self._sodoku = create(board)
+            else:
+                self._sodoku = generate(width=3, height=3, difficulty=difficulty, seed=seed)
             self._board = Sudoku._copy_board(self._sodoku.board)
             self._board = np.array(self._board)
             self._board = np.where(self._board == None, 0, self._board)
         else:
             self._clear()
 
-    def validate(self):
+    def validate(self) -> bool:
         return self._sodoku.validate()
     
-    def solve(self):
-        return self._sodoku.solve()
+    def solve(self) -> Self:
+        return Board(board=self._sodoku.solve().board)
     
-    def possible_answers(self):
+    def possible_answers(self) -> List[List[int]]:
         answers = []
         current_board = Sudoku._copy_board(self._sodoku.board)
         solved_sudoku = create(current_board).solve()
