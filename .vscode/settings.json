@@ -1,15 +1,27 @@
 {
     "cSpell.words": [
         "arange",
+        "argmax",
         "atleast",
+        "Binarizer",
         "blit",
         "comicsans",
+        "crossentropy",
         "dtype",
+        "ggplot",
+        "Keras",
         "KEYDOWN",
+        "matplotlib",
         "MOUSEBUTTONDOWN",
         "ndarray",
         "pygame",
+        "pyplot",
         "randn",
-        "Sodoku"
+        "savefig",
+        "sklearn",
+        "Sodoku",
+        "softmax",
+        "xlabel",
+        "ylabel"
     ]
 }
