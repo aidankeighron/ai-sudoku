@@ -185,9 +185,8 @@ def run_nn():
 class Keras:
     def __init__(self, learning_rate=0.01):
         self.model = Sequential()
-        # inputs = Input(shape=(81,))
-        self.model.add(Dense(256, input_shape=(81,), activation="sigmoid"))
-        # self.model.add(Dense(256, activation="sigmoid")(inputs))
+        # self.model.add(Dense(256, input_shape=(81,), activation="sigmoid"))
+        self.model.add(Input(shape=(81,)))
         self.model.add(Dense(128, activation="sigmoid"))
         self.model.add(Dense(81, activation="softmax"))
         self.learning_rate = learning_rate
